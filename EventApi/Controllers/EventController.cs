@@ -1,6 +1,6 @@
 ﻿using EventCore.Class;
-using GlaTicket.Data;
-using GlaTicket.Interface;
+using EventCore.Data;
+using EventCore.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

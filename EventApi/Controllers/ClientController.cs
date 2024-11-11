@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventCore.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,9 +26,9 @@ namespace EventApi.Controllers
 
         // GET api/<ClientController>/5
         [HttpGet("{id}")]
-        public Client Get(int id)
+        public ActionResult Get(int id)
         {
-            return dataContext.clientList.FirstOrDefault(c => c.ClientId == id && c.ClientStatus == true);
+            return Ok(dataContext.clientList.FirstOrDefault(c => c.ClientId == id && c.ClientStatus == true));
         }
 
 
