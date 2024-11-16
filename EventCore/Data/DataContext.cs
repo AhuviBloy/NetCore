@@ -14,7 +14,7 @@ namespace EventCore.Data
         {
             clientList = new List<Client>();
             ticketList = new List<Ticket>();
-            eventList = new List<Event>();
+            eventList = new List<Event>() ;
             producersList = new List<Producer>();
         }
     }

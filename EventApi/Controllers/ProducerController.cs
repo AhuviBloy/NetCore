@@ -11,39 +11,39 @@ namespace EventApi.Controllers
     [ApiController]
     public class ProducerController : ControllerBase
     {
-        private IDataContext dataContext;
+        private IDataContext _dataContext;
 
         public ProducerController(IDataContext context)
         {
-            dataContext = context;
+            _dataContext = context;
         }
 
         // GET: api/<ProducerController>
         [HttpGet]
         public IEnumerable<Producer> Get()
         {
-            return dataContext.producersList;
+            return _dataContext.producersList;
         }
 
         // GET api/<ProducerController>/5
         [HttpGet("{id}")]
         public Producer Get(int id)
         {
-            return dataContext.producersList.FirstOrDefault(p => p.ProducerId == id && p.ProducerStatus == true);
+            return _dataContext.producersList.FirstOrDefault(p => p.ProducerId == id && p.ProducerStatus == true);
         }
 
         // POST api/<ProducerController>
         [HttpPost]
         public void Post(int producerId, string producerName)
         {
-            dataContext.producersList.Add(new Producer() { ProducerId = producerId, ProducerName = producerName, ProducerStatus = true, ProducerEventList = new List<int>() });
+            _dataContext.producersList.Add(new Producer() { ProducerId = producerId, ProducerName = producerName, ProducerStatus = true, ProducerEventList = new List<int>() });
         }
 
         // DELETE api/<ProducerController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            dataContext.producersList.FirstOrDefault(p => p.ProducerId == id).ProducerStatus = false;
+            _dataContext.producersList.FirstOrDefault(p => p.ProducerId == id).ProducerStatus = false;
         }
     }
 }

@@ -7,5 +7,10 @@
         public bool ProducerStatus { get; set; }
         public List<int> ProducerEventList { get; set; }
 
+        public Producer()
+        {
+            
+        }
+
     }
 }

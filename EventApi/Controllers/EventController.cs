@@ -11,36 +11,40 @@ namespace EventApi.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private IDataContext dataContext;
+        private IDataContext _dataContext;
 
         public EventController(IDataContext context)
         {
-            dataContext = context;
+            _dataContext = context;
         }
 
         // GET: api/<EventController>
         [HttpGet]
-        public IEnumerable<Event> Get()
+        public ActionResult<IEnumerable<Event>> Get()
         {
-
-            return dataContext.eventList;
+            return Ok(_dataContext.eventList);
         }
 
         // GET api/<EventController>/5
         [HttpGet("{id}")]
-        public Event Get(int id)
+        public ActionResult<Event> Get(int id)
         {
-            return dataContext.eventList.FirstOrDefault(e => e.EventCode == id && e.EventStatus == true);
+            var eventItem = _dataContext.eventList.FirstOrDefault(e => e.EventCode == id && e.EventStatus == true);
+            if (eventItem == null)
+            {
+                return NotFound($"Event with ID {id} not found or inactive.");
+            }
+            return Ok(eventItem);
         }
 
         // POST api/<EventController>
         [HttpPost]
         public void Post([FromBody] Event eventt)
         {
-            dataContext.eventList.Add(eventt);
-            if (dataContext.producersList.Any(p => p.ProducerId == eventt.EventProducerId))
+            _dataContext.eventList.Add(eventt);
+            if (_dataContext.producersList.Any(p => p.ProducerId == eventt.EventProducerId))
             {
-                dataContext.producersList.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId).ProducerEventList.Add(eventt.EventCode);
+                _dataContext.producersList.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId).ProducerEventList.Add(eventt.EventCode);
             }
 
         }
@@ -49,7 +53,7 @@ namespace EventApi.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Event eventt)
         {
-            Event temp = dataContext.eventList.FirstOrDefault(e => e.EventCode == id);
+            Event temp = _dataContext.eventList.FirstOrDefault(e => e.EventCode == id);
             temp.EventDate = eventt.EventDate;
             temp.EventPrice = eventt.EventPrice;
         }
@@ -58,7 +62,7 @@ namespace EventApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            dataContext.eventList.FirstOrDefault(e => e.EventCode == id).EventStatus = false;
+            _dataContext.eventList.FirstOrDefault(e => e.EventCode == id).EventStatus = false;
         }
     }
 }

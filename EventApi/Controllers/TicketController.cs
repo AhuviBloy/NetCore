@@ -11,26 +11,26 @@ namespace EventApi.Controllers
     [ApiController]
     public class TicketController : ControllerBase
     {
-        private IDataContext dataContext;
+        private IDataContext _dataContext;
 
         public TicketController(IDataContext context)
         {
-            dataContext = context;
+            _dataContext = context;
         }
 
         // POST api/<TicketController>
         [HttpPost]
         public void Post([FromBody] Ticket ticket)
         {
-            if (dataContext.eventList.Any(e => e.EventCode == ticket.EventCode && e.EventStatus == true))
+            if (_dataContext.eventList.Any(e => e.EventCode == ticket.EventCode && e.EventStatus == true))
             {
-                if (dataContext.clientList.Any(c => c.ClientId == ticket.ClientId))
+                if (_dataContext.clientList.Any(c => c.ClientId == ticket.ClientId))
                 {
-                    dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket.EventCode);
+                    _dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket.EventCode);
                 }
                 else
                 {
-                    dataContext.clientList.Add(new Client() { ClientId = ticket.ClientId, ClientName = ticket.ClientName, ClientStatus = true, ClientTicketList = new List<int>() { ticket.EventCode } });
+                    _dataContext.clientList.Add(new Client() { ClientId = ticket.ClientId, ClientName = ticket.ClientName, ClientStatus = true, ClientTicketList = new List<int>() { ticket.EventCode } });
                 }
             }
         }

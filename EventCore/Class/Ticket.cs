@@ -6,5 +6,10 @@
         public string ClientName { get; set; }
         public int EventCode { get; set; }
         public string EventName { get; set; }
+
+        public Ticket()
+        {
+            
+        }
     }
 }

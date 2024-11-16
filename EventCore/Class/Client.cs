@@ -6,5 +6,10 @@
         public string ClientName { get; set; }
         public bool ClientStatus { get; set; }
         public List<int> ClientTicketList { get; set; }
+
+        public Client()
+        {
+            
+        }
     }
 }
