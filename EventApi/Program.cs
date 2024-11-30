@@ -1,5 +1,6 @@
+
+using Event.Core.Interface;
 using EventCore.Data;
-using EventCore.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 

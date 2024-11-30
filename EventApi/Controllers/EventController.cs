@@ -1,6 +1,6 @@
-﻿using EventCore.Class;
-using EventCore.Data;
-using EventCore.Interface;
+﻿
+using Event.Core.Interface;
+using Event.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,21 +13,21 @@ namespace EventApi.Controllers
     {
         private IDataContext _dataContext;
 
-        public EventController(IDataContext context)
+        public EventController(IDataContext context) 
         {
             _dataContext = context;
         }
 
         // GET: api/<EventController>
         [HttpGet]
-        public ActionResult<IEnumerable<Event>> Get()
+        public ActionResult<IEnumerable<SingleEvent>> Get()
         {
             return Ok(_dataContext.eventList);
         }
 
         // GET api/<EventController>/5
         [HttpGet("{id}")]
-        public ActionResult<Event> Get(int id)
+        public ActionResult<SingleEvent> Get(int id)
         {
             var eventItem = _dataContext.eventList.FirstOrDefault(e => e.EventCode == id && e.EventStatus == true);
             if (eventItem == null)
@@ -39,7 +39,7 @@ namespace EventApi.Controllers
 
         // POST api/<EventController>
         [HttpPost]
-        public void Post([FromBody] Event eventt)
+        public void Post([FromBody] SingleEvent eventt)
         {
             _dataContext.eventList.Add(eventt);
             if (_dataContext.producersList.Any(p => p.ProducerId == eventt.EventProducerId))
@@ -51,9 +51,9 @@ namespace EventApi.Controllers
 
         // PUT api/<EventController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Event eventt)
+        public void Put(int id, [FromBody] SingleEvent eventt)
         {
-            Event temp = _dataContext.eventList.FirstOrDefault(e => e.EventCode == id);
+            SingleEvent temp = _dataContext.eventList.FirstOrDefault(e => e.EventCode == id);
             temp.EventDate = eventt.EventDate;
             temp.EventPrice = eventt.EventPrice;
         }

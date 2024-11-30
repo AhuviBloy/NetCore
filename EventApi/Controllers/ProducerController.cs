@@ -1,11 +1,10 @@
-﻿using EventCore.Class;
-using EventCore.Data;
-using EventCore.Interface;
+﻿using Event.Core.Interface;
+using Event.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace EventApi.Controllers
+namespace Event.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
