@@ -1,5 +1,6 @@
 ﻿using Event.Core.Interface;
 using Event.Core.Models;
+using Event.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,39 +11,39 @@ namespace Event.Api.Controllers
     [ApiController]
     public class ProducerController : ControllerBase
     {
-        private IDataContext _dataContext;
+        private readonly IProducerService _producerService;
 
-        public ProducerController(IDataContext context)
+        public ProducerController(IProducerService producerService)
         {
-            _dataContext = context;
+            _producerService = producerService;
         }
 
         // GET: api/<ProducerController>
         [HttpGet]
-        public IEnumerable<Producer> Get()
+        public List<Producer> Get()
         {
-            return _dataContext.producersList;
+            return _producerService.GetAllProducers();
         }
 
         // GET api/<ProducerController>/5
         [HttpGet("{id}")]
         public Producer Get(int id)
         {
-            return _dataContext.producersList.FirstOrDefault(p => p.ProducerId == id && p.ProducerStatus == true);
+            return _producerService.GetProducerById(id);
         }
 
         // POST api/<ProducerController>
         [HttpPost]
         public void Post(int producerId, string producerName)
         {
-            _dataContext.producersList.Add(new Producer() { ProducerId = producerId, ProducerName = producerName, ProducerStatus = true, ProducerEventList = new List<int>() });
+            _producerService.PostProducer(producerId, producerName);
         }
 
         // DELETE api/<ProducerController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _dataContext.producersList.FirstOrDefault(p => p.ProducerId == id).ProducerStatus = false;
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+
+        //}
     }
 }

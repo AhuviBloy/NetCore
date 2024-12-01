@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Event.Core.Repositories
+namespace Event.Core.Services
 {
-    public interface IEventRepository
+    public interface IEventService
     {
         public List<SingleEvent> GetAllEvents(); //קבלת כל הארועים
         public SingleEvent GetEventById(int id); //קבלת פרטי ארוע

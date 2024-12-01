@@ -8,15 +8,17 @@
         public int EventPrice { get; set; }
         public bool EventStatus { get; set; }
         public int EventProducerId { get; set; }
+        public string EventProducerNmae { get; set; }
 
-        public SingleEvent(int id, string name, int price, DateTime date, int pid)
+        public SingleEvent(int id, string name, int price, DateTime date, int pId, string pNmae)
         {
             EventName = name;
             EventCode = id;
             EventPrice = price;
             EventStatus = true;
-            EventProducerId = pid;
+            EventProducerId = pId;
             EventDate = date;
+            EventProducerNmae = pNmae;
         }
     }
 }

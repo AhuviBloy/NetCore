@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Event.Core.Repositories
+namespace Event.Core.Services
 {
-    public interface ITicketRepository
+    public interface ITicketService
     {
         public void PostTicket(Ticket ticket); //קנית כרטיס
     }

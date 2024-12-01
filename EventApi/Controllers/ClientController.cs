@@ -1,6 +1,7 @@
 ﻿
 using Event.Core.Interface;
-using Event.Core.Interface;
+using Event.Core.Models;
+using Event.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,48 +12,33 @@ namespace Event.Api.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        public static IDataContext _dataContext;
+        private readonly IClientService _clientService;
 
-        public ClientController(IDataContext context)
+        public ClientController(IClientService clientService)
         {
-            _dataContext = context;
+            _clientService = clientService;
         }
 
         // GET: api/Client
         [HttpGet]
-        public ActionResult Get()
+        public List<Client> Get()
         {
-            // בודק אם יש רשימה של לקוחות. אם אין, מחזיר NotFound.
-            var clients = _dataContext.clientList.ToList();
-            if (!clients.Any())
-            {
-                return NotFound("No clients found.");
-            }
-
-            return Ok(clients);  // מחזיר את רשימת הלקוחות
+           return _clientService.GetAllClients();
         }
 
         // GET api/Client/{id}
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public Client Get(int id)
         {
-            // מוודא אם הלקוח עם ה-ID נמצא ואם הסטטוס שלו True
-            var client = _dataContext.clientList.FirstOrDefault(c => c.ClientId == id && c.ClientStatus == true);
-
-            if (client == null)
-            {
-                return NotFound($"Client with ID {id} not found or is inactive.");
-            }
-
-            return Ok(client);  // מחזיר את הלקוח
+            return _clientService.GetClientById(id);
         }
 
 
-        // DELETE api/<ClientController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id, int eventCode)
-        {
-            _dataContext.clientList.FirstOrDefault(c => c.ClientId == id).ClientTicketList.Remove(eventCode);
-        }
+        //// DELETE api/<ClientController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id, Ticket ticket)
+        //{
+            
+        //}
     }
 }

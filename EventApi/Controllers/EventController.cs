@@ -1,6 +1,7 @@
 ﻿
 using Event.Core.Interface;
 using Event.Core.Models;
+using Event.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,58 +12,46 @@ namespace EventApi.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private IDataContext _dataContext;
+        private readonly IEventService _eventService;
 
-        public EventController(IDataContext context) 
+        public EventController(IEventService eventService) 
         {
-            _dataContext = context;
+            _eventService = eventService;
         }
 
         // GET: api/<EventController>
         [HttpGet]
-        public ActionResult<IEnumerable<SingleEvent>> Get()
+        public List<SingleEvent> Get()
         {
-            return Ok(_dataContext.eventList);
+            return _eventService.GetAllEvents();
         }
 
         // GET api/<EventController>/5
         [HttpGet("{id}")]
-        public ActionResult<SingleEvent> Get(int id)
+        public SingleEvent Get(int id)
         {
-            var eventItem = _dataContext.eventList.FirstOrDefault(e => e.EventCode == id && e.EventStatus == true);
-            if (eventItem == null)
-            {
-                return NotFound($"Event with ID {id} not found or inactive.");
-            }
-            return Ok(eventItem);
+           return _eventService.GetEventById(id);
         }
 
         // POST api/<EventController>
         [HttpPost]
         public void Post([FromBody] SingleEvent eventt)
         {
-            _dataContext.eventList.Add(eventt);
-            if (_dataContext.producersList.Any(p => p.ProducerId == eventt.EventProducerId))
-            {
-                _dataContext.producersList.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId).ProducerEventList.Add(eventt.EventCode);
-            }
-
+            _eventService.PostEvent(eventt);
         }
 
         // PUT api/<EventController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] SingleEvent eventt)
         {
-            SingleEvent temp = _dataContext.eventList.FirstOrDefault(e => e.EventCode == id);
-            temp.EventDate = eventt.EventDate;
-            temp.EventPrice = eventt.EventPrice;
+            _eventService.PutEvent(eventt);
         }
 
         // DELETE api/<EventController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _dataContext.eventList.FirstOrDefault(e => e.EventCode == id).EventStatus = false;
+            _eventService.DeleteEvent(id);
         }
     }
 }
