@@ -21,37 +21,44 @@ namespace EventApi.Controllers
 
         // GET: api/<EventController>
         [HttpGet]
-        public List<SingleEvent> Get()
+        public ActionResult<List<SingleEvent>> Get()
         {
-            return _eventService.GetAllEvents();
+            var tmp=_eventService.GetAllEvents();
+            return Ok(tmp);
         }
 
         // GET api/<EventController>/5
         [HttpGet("{id}")]
-        public SingleEvent Get(int id)
+        public ActionResult<SingleEvent> Get(int id)
         {
-           return _eventService.GetEventById(id);
+            var tmp=_eventService.GetEventById(id);
+            if (tmp == null)
+                return NotFound("There is no an event with that id");
+            return Ok(tmp);
         }
 
         // POST api/<EventController>
         [HttpPost]
-        public void Post([FromBody] SingleEvent eventt)
+        public ActionResult<bool> Post([FromBody] SingleEvent eventt)
         {
             _eventService.PostEvent(eventt);
+            return Ok(true);
         }
 
         // PUT api/<EventController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] SingleEvent eventt)
+        public ActionResult<bool> Put(int id, [FromBody] SingleEvent eventt)
         {
             _eventService.PutEvent(eventt);
+            return Ok(true);
         }
 
         // DELETE api/<EventController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<bool> Delete(int id)
         {
             _eventService.DeleteEvent(id);
+            return Ok(true);
         }
     }
 }

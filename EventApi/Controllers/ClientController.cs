@@ -21,24 +21,27 @@ namespace Event.Api.Controllers
 
         // GET: api/Client
         [HttpGet]
-        public List<Client> Get()
+        public ActionResult<List<Client>> Get()
         {
-           return _clientService.GetAllClients();
+           return Ok(_clientService.GetAllClients());
         }
 
         // GET api/Client/{id}
         [HttpGet("{id}")]
-        public Client Get(int id)
+        public ActionResult<Client> Get(int id)
         {
-            return _clientService.GetClientById(id);
+            var tmp = _clientService.GetClientById(id);
+            if(tmp == null) 
+                return NotFound("The user isn't exsist");
+            return Ok(tmp);
         }
 
 
         //// DELETE api/<ClientController>/5
         //[HttpDelete("{id}")]
-        //public void Delete(int id, Ticket ticket)
+        //public ActionResult<bool> Delete(int id, Ticket ticket)
         //{
-            
+        //    return Ok(true);
         //}
     }
 }

@@ -34,16 +34,17 @@ namespace Event.Api.Controllers
 
         // POST api/<ProducerController>
         [HttpPost]
-        public void Post(int producerId, string producerName)
+        public ActionResult<bool> Post(int producerId, string producerName)
         {
             _producerService.PostProducer(producerId, producerName);
+            return Ok(true);
         }
 
-        // DELETE api/<ProducerController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-
-        //}
+        //DELETE api/<ProducerController>/5
+        [HttpDelete("{id}")]
+        public ActionResult<bool> Delete(int id)
+        {
+            return Ok(true);
+        }
     }
 }

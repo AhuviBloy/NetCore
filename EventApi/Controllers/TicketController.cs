@@ -21,9 +21,10 @@ namespace Event.Api.Controllers
 
         // POST api/<TicketController>
         [HttpPost]
-        public void Post([FromBody] Ticket ticket)
+        public ActionResult<bool> Post([FromBody] Ticket ticket)
         {
             _ticketService.PostTicket(ticket);
+            return Ok(true);
         }
 
     }
