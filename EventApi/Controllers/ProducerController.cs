@@ -36,7 +36,7 @@ namespace Event.Api.Controllers
         [HttpPost]
         public ActionResult<bool> Post(int producerId, string producerName)
         {
-            _producerService.PostProducer(producerId, producerName);
+            _producerService.AddNewProducer(producerId, producerName);
             return Ok(true);
         }
 

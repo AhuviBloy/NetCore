@@ -9,6 +9,6 @@ namespace Event.Core.Services
 {
     public interface ITicketService
     {
-        public void PostTicket(Ticket ticket); //קנית כרטיס
+        public void BuyTicket(Ticket ticket); //קנית כרטיס
     }
 }

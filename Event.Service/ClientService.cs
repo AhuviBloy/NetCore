@@ -22,19 +22,28 @@ namespace Event.Service
         {
             return _clientRepository.GetAllClients();
         }
+
         public Client GetClientById(int id)
         {
             return _clientRepository.GetClientById(id);
         }
-        public void PostClient(int id, string name)//הוספת לקוח חדש
+
+        public void AddNewClient(int id, string name)//הוספת לקוח חדש
         {
-            _clientRepository.PostClient(id,name);
-        }
-        public void PutClient(Ticket ticket) // הכנסת כרטיס ללקוח
-        {
-            _clientRepository.PutClient(ticket);
+            _clientRepository.AddNewClient(id,name);
         }
 
-        //public void DeleteTicket(Ticket ticket); //מחיקת כרטיס ללקוח  
+        public void AddTicketToClient(Ticket ticket) // הכנסת כרטיס ללקוח
+        {
+            Client temp = _clientRepository.GetClientById(ticket.ClientId);
+
+            if (temp == null)
+            {
+                _clientRepository.AddNewClient(ticket.ClientId, ticket.ClientName);
+            }          
+            _clientRepository.AddTicketToClient(ticket);
+        }
+
+        //public void DeleteTicketToClient(Ticket ticket); //מחיקת כרטיס ללקוח  
     }
 }

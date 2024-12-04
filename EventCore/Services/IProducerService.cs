@@ -11,8 +11,9 @@ namespace Event.Core.Services
     {
         public List<Producer> GetAllProducers(); //קבלת רשימה של כל המפיקים
         public Producer GetProducerById(int id); //קבלת מפיק
-        public void PostProducer(int id, string name); // (הוספת מפיק חדש (במקרה שיצר ארוע
-        //public void PutProducer(Ticket ticket); // הכנסת ארוע למפיק
+        public void AddNewProducer(int id, string name); // (הוספת מפיק חדש (במקרה שיצר ארוע
+
+        public void AddEventToProducer(SingleEvent eventt); // הכנסת ארוע למפיק
 
         //public void DeleteProducer(Ticket ticket); //מחיקת ארוע למפיק  
     }

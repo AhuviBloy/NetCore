@@ -23,7 +23,7 @@ namespace Event.Api.Controllers
         [HttpPost]
         public ActionResult<bool> Post([FromBody] Ticket ticket)
         {
-            _ticketService.PostTicket(ticket);
+            _ticketService.BuyTicket(ticket);
             return Ok(true);
         }
 

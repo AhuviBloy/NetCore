@@ -11,9 +11,9 @@ namespace Event.Core.Services
     {
         public List<Client> GetAllClients(); //קבלת כל הלקוחות
         public Client GetClientById(int id); //קבלת פרטי לקוח
-        public void PostClient(int id, string name); // (הוספת לקוח חדש (במקרה שקנה כרטיס
-        public void PutClient(Ticket ticket); // הכנסת כרטיס ללקוח
+        public void AddNewClient(int id, string name); // (הוספת לקוח חדש (במקרה שקנה כרטיס
+        public void AddTicketToClient(Ticket ticket); // הכנסת כרטיס ללקוח
 
-        //public void DeleteTicket(Ticket ticket); //מחיקת כרטיס ללקוח  
+        //public void DeleteTicketToClient(Ticket ticket); //מחיקת כרטיס ללקוח  
     }
 }

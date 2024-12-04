@@ -22,24 +22,22 @@ namespace Event.Data.Repositories
         {
             return _dataContext.clientList;
         }
+
         public Client GetClientById(int id)
         {
            return _dataContext.clientList.FirstOrDefault(c => c.ClientId == id && c.ClientStatus == true);
         }
-        public void PostClient(int id,string name)//הוספת לקוח חדש
+
+        public void AddNewClient(int id,string name)//הוספת לקוח חדש
         {
             _dataContext.clientList.Add(new Client(id,name));
         }
-        public void PutClient(Ticket ticket) // הכנסת כרטיס ללקוח
-        {
-            Client temp=_dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId);
-            if (temp==null)
-            {
-                PostClient(ticket.ClientId,ticket.ClientName);
-            }
+
+        public void AddTicketToClient(Ticket ticket) // הכנסת כרטיס ללקוח
+        {          
             _dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket);
         }
 
-        //public void DeleteTicket(Ticket ticket); //מחיקת כרטיס ללקוח  
+        //public void DeleteTicketToClient(Ticket ticket); //מחיקת כרטיס ללקוח  
     }
 }

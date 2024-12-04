@@ -24,29 +24,25 @@ namespace Event.Data.Repositories
         {
             return _dataContext.eventList;
         }
+
         public SingleEvent GetEventById(int id) //קבלת פרטי ארוע
         {
             return _dataContext.eventList.FirstOrDefault(e=>e.EventCode==id);
         }
-        public void PostEvent(SingleEvent eventt) //הוספת ארוע למפיק
+
+        public void AddNewEvent(SingleEvent eventt) //הוספת ארוע למפיק
         {
-            Producer temp = _dataContext.producersList.FirstOrDefault(p=>p.ProducerId== eventt.EventProducerId);
-            if (temp == null)
-            {
-                _dataContext.producersList.Add(new Producer(eventt.EventProducerId, eventt.EventProducerNmae));
-            }
             _dataContext.producersList.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId).ProducerEventList.Add(eventt);
         }
-        public void PutEvent(SingleEvent eventt) //שינוי פרטי ארוע
+
+        public void UpdateEventDetails(SingleEvent eventt) //שינוי פרטי ארוע
         {
             SingleEvent temp = _dataContext.eventList.FirstOrDefault(e => e.EventCode == eventt.EventCode);
-            if (temp != null)
-            {
-                temp.EventPrice = eventt.EventPrice;
-                temp.EventDate = eventt.EventDate;
-            }
+            temp.EventPrice = eventt.EventPrice;
+            temp.EventDate = eventt.EventDate;
         }
-        public void DeleteEvent(int id) //ארוע לא זמין
+
+        public void DeleteInactiveEvent(int id) //ארוע לא זמין
         {
             _dataContext.eventList.FirstOrDefault(e => e.EventCode == id).EventStatus = false;
         }

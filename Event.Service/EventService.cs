@@ -12,31 +12,46 @@ namespace Event.Service
     public class EventService:IEventService
     {
         private readonly IEventRepository _eventRepository;
+        private readonly IProducerService _producerService;
 
-        public EventService(IEventRepository eventRepository)
+        public EventService(IEventRepository eventRepository, IProducerService producerService)
         {
-                _eventRepository = eventRepository;
+            _eventRepository = eventRepository;
+            _producerService = producerService;
         }
 
         public List<SingleEvent> GetAllEvents() //קבלת כל הארועים
         {
             return _eventRepository.GetAllEvents();
         }
+
         public SingleEvent GetEventById(int id) //קבלת פרטי ארוע
         {
             return _eventRepository.GetEventById(id);
         }
-        public void PostEvent(SingleEvent eventt) //הוספת ארוע למפיק
+
+        public void AddNewEvent(SingleEvent eventt) //הוספת ארוע למפיק
         {
-            _eventRepository.PostEvent(eventt);
+            Producer temp=_producerService.GetProducerById(eventt.EventProducerId);
+            if (temp == null)
+            {
+                _producerService.AddNewProducer(eventt.EventProducerId,eventt.EventProducerNmae);
+            }
+            _eventRepository.AddNewEvent(eventt);
         }
-        public void PutEvent(SingleEvent eventt) //שינוי פרטי ארוע
+
+        public void UpdateEventDetails(SingleEvent eventt) //שינוי פרטי ארוע
         {
-            _eventRepository.PutEvent(eventt);
+            SingleEvent temp=_eventRepository.GetEventById(eventt.EventCode);
+            if (temp == null)
+                _eventRepository.UpdateEventDetails(eventt);
         }
-        public void DeleteEvent(int id) //ארוע לא זמין
+
+        public void DeleteInactiveEvent(int id) //ארוע לא זמין
         {
-            _eventRepository.DeleteEvent(id);
+            SingleEvent temp = _eventRepository.GetEventById(id);
+            if (temp == null)
+                _eventRepository.DeleteInactiveEvent(id);
         }
 
     }

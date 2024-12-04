@@ -12,14 +12,16 @@ namespace Event.Service
     public class TicketService:ITicketService
     {
         private readonly ITicketRepository _ticketRepository;
+        private readonly IClientService _clientService;
 
-        public TicketService(ITicketRepository ticketRepository)
+        public TicketService(ITicketRepository ticketRepository,IClientService clientService)
         {
             _ticketRepository = ticketRepository;
+            _clientService = clientService;
         }
-        public void PostTicket(Ticket ticket) //קנית כרטיס
+        public void BuyTicket(Ticket ticket) //קנית כרטיס
         {
-            _ticketRepository.PostTicket(ticket);
+            _clientService.AddTicketToClient(ticket);
         }
     }
 }

@@ -26,11 +26,19 @@ namespace Event.Service
         {
             return _producerRepository.GetProducerById(id);
         }
-        public void PostProducer(int id, string name) // (הוספת מפיק חדש (במקרה שיצר ארוע
+        public void AddNewProducer(int id, string name) // (הוספת מפיק חדש (במקרה שיצר ארוע
         {
-            _producerRepository.PostProducer(id, name);
+            _producerRepository.AddNewProducer(id, name);
         }
-        //public void PutProducer(Ticket ticket)// הכנסת ארוע למפיק
+        public void AddEventToProducer(SingleEvent eventt)// הכנסת ארוע למפיק
+        {
+            Producer temp = _producerRepository.GetProducerById(eventt.EventProducerId);
+            if (temp == null)
+            {
+                _producerRepository.AddNewProducer(eventt.EventProducerId,eventt.EventProducerNmae);
+            }
+            _producerRepository.AddEventToProducer(eventt);
+        }
 
         //public void DeleteProducer(Ticket ticket); //מחיקת ארוע למפיק 
     }

@@ -22,15 +22,20 @@ namespace Event.Data.Repositories
         {
             return _dataContext.producersList;
         }
+
         public Producer GetProducerById(int id)//קבלת מפיק
         {
             return _dataContext.producersList.FirstOrDefault(p => p.ProducerId == id );
         }
-        public void PostProducer(int id, string name) // (הוספת מפיק חדש (במקרה שיצר ארוע
+
+        public void AddNewProducer(int id, string name) // (הוספת מפיק חדש (במקרה שיצר ארוע
         {
             _dataContext.producersList.Add(new Producer(id,name));
         }
-        //public void PutProducer(Ticket ticket)// הכנסת ארוע למפיק
+        public void AddEventToProducer(SingleEvent eventt)// הכנסת ארוע למפיק
+        {
+            GetProducerById(eventt.EventProducerId).ProducerEventList.Add(eventt);
+        }
 
         //public void DeleteProducer(Ticket ticket); //מחיקת ארוע למפיק 
 

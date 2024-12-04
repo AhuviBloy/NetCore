@@ -17,14 +17,10 @@ namespace Event.Data.Repositories
         {
             _dataContext = context;
         }
-        public void PostTicket(Ticket ticket) //קנית כרטיס
-        {
-             Client temp=  _dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId);
-             if (temp == null) {
 
-                _dataContext.clientList.Add(new Client(ticket.ClientId,ticket.ClientName));
-            }
-            _dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket);
-        }
+        //public void BuyTicket(Ticket ticket) //קנית כרטיס
+        //{
+        //    _dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket);
+        //}
     }
 }

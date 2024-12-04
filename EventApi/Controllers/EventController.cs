@@ -41,7 +41,7 @@ namespace EventApi.Controllers
         [HttpPost]
         public ActionResult<bool> Post([FromBody] SingleEvent eventt)
         {
-            _eventService.PostEvent(eventt);
+            _eventService.AddNewEvent(eventt);
             return Ok(true);
         }
 
@@ -49,7 +49,7 @@ namespace EventApi.Controllers
         [HttpPut("{id}")]
         public ActionResult<bool> Put(int id, [FromBody] SingleEvent eventt)
         {
-            _eventService.PutEvent(eventt);
+            _eventService.UpdateEventDetails(eventt);
             return Ok(true);
         }
 
@@ -57,7 +57,7 @@ namespace EventApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult<bool> Delete(int id)
         {
-            _eventService.DeleteEvent(id);
+            _eventService.DeleteInactiveEvent(id);
             return Ok(true);
         }
     }
