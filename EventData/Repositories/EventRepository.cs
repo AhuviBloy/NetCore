@@ -22,29 +22,29 @@ namespace Event.Data.Repositories
 
         public List<SingleEvent> GetAllEvents() //קבלת כל הארועים
         {
-            return _dataContext.eventList;
+            return _dataContext.eventDbSet.ToList();
         }
 
         public SingleEvent GetEventById(int id) //קבלת פרטי ארוע
         {
-            return _dataContext.eventList.FirstOrDefault(e=>e.EventCode==id);
+            return _dataContext.eventDbSet.FirstOrDefault(e=>e.EventCode==id);
         }
 
         public void AddNewEvent(SingleEvent eventt) //הוספת ארוע למפיק
         {
-            _dataContext.producersList.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId).ProducerEventList.Add(eventt);
+            _dataContext.producersDbSet.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId).ProducerEventList.Add(eventt);
         }
 
         public void UpdateEventDetails(SingleEvent eventt) //שינוי פרטי ארוע
         {
-            SingleEvent temp = _dataContext.eventList.FirstOrDefault(e => e.EventCode == eventt.EventCode);
+            SingleEvent temp = _dataContext.eventDbSet.FirstOrDefault(e => e.EventCode == eventt.EventCode);
             temp.EventPrice = eventt.EventPrice;
             temp.EventDate = eventt.EventDate;
         }
 
         public void DeleteInactiveEvent(int id) //ארוע לא זמין
         {
-            _dataContext.eventList.FirstOrDefault(e => e.EventCode == id).EventStatus = false;
+            _dataContext.eventDbSet.FirstOrDefault(e => e.EventCode == id).EventStatus = false;
         }
     }
 }

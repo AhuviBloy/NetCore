@@ -20,22 +20,22 @@ namespace Event.Data.Repositories
 
         public List<Client> GetAllClients()
         {
-            return _dataContext.clientList;
+            return _dataContext.clientDbSet.ToList();
         }
 
         public Client GetClientById(int id)
         {
-           return _dataContext.clientList.FirstOrDefault(c => c.ClientId == id && c.ClientStatus == true);
+           return _dataContext.clientDbSet.FirstOrDefault(c => c.ClientId == id && c.ClientStatus == true);
         }
 
         public void AddNewClient(int id,string name)//הוספת לקוח חדש
         {
-            _dataContext.clientList.Add(new Client(id,name));
+            _dataContext.clientDbSet.Add(new Client() { ClientId=id,ClientName=name,ClientTicketList=new List<Ticket>(),ClientStatus=true});
         }
 
         public void AddTicketToClient(Ticket ticket) // הכנסת כרטיס ללקוח
         {          
-            _dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket);
+            _dataContext.clientDbSet.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket);
         }
 
         //public void DeleteTicketToClient(Ticket ticket); //מחיקת כרטיס ללקוח  

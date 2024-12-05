@@ -5,6 +5,7 @@ using Event.Core.Services;
 using Event.Data.Repositories;
 using Event.Service;
 using EventCore.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddScoped<IDataContext, DataContext>();
+builder.Services.AddDbContext<DataContext>();
 
 // רישום הרפוזיטוריז
 builder.Services.AddScoped<IEventRepository, EventRepository>();
@@ -30,8 +32,6 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 
-var app = builder.Build();
-
 
 builder.Services.AddCors(options =>
 {
@@ -42,6 +42,12 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
+
+var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

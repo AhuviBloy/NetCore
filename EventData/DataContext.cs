@@ -1,21 +1,22 @@
 ﻿using Event.Core.Interface;
 using Event.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventCore.Data
 {
-    public class DataContext : IDataContext
+    public class DataContext : DbContext, IDataContext
     {
-        public List<Ticket> ticketList { get; set; }
-        public List<Client> clientList { get; set; }
-        public List<SingleEvent> eventList { get; set; }
-        public List<Producer> producersList { get; set; }
+        public DbSet<Ticket> ticketDbSet { get; set; }
+        public DbSet<Client> clientDbSet { get; set; }
+        public DbSet<SingleEvent> eventDbSet { get; set; }
+        public DbSet<Producer> producersDbSet { get; set; }
 
-        public DataContext()
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            clientList = new List<Client>();
-            ticketList = new List<Ticket>();
-            eventList = new List<SingleEvent>() ;
-            producersList = new List<Producer>();
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=sample_db");
         }
+
     }
 }

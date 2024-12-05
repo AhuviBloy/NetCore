@@ -20,17 +20,17 @@ namespace Event.Data.Repositories
 
         public List<Producer> GetAllProducers() //קבלת רשימה של כל המפיקים
         {
-            return _dataContext.producersList;
+            return _dataContext.producersDbSet.ToList();
         }
 
         public Producer GetProducerById(int id)//קבלת מפיק
         {
-            return _dataContext.producersList.FirstOrDefault(p => p.ProducerId == id );
+            return _dataContext.producersDbSet.FirstOrDefault(p => p.ProducerId == id );
         }
 
         public void AddNewProducer(int id, string name) // (הוספת מפיק חדש (במקרה שיצר ארוע
         {
-            _dataContext.producersList.Add(new Producer(id,name));
+            _dataContext.producersDbSet.Add(new Producer() { ProducerId=id,ProducerName=name,ProducerEventList=new List<SingleEvent>(),ProducerStatus=true});
         }
         public void AddEventToProducer(SingleEvent eventt)// הכנסת ארוע למפיק
         {

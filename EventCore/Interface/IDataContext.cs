@@ -1,13 +1,14 @@
 ﻿using Event.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Event.Core.Interface
 {
     public interface IDataContext
     {
-
-        List<Ticket> ticketList { get; set; }
-        List<Client> clientList { get; set; }
-        List<Models.SingleEvent> eventList { get; set; }
-        List<Producer> producersList { get; set; }
+        DbSet<Ticket> ticketDbSet { get; set; }
+        DbSet<Client> clientDbSet { get; set; }
+        DbSet<SingleEvent> eventDbSet { get; set; }
+        DbSet<Producer> producersDbSet { get; set; }
     }
 }

@@ -1,7 +1,11 @@
-﻿namespace Event.Core.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Event.Core.Models
 {
     public class SingleEvent
     {
+        [Key]
+        public int Id { get; set; }
         public int EventCode { get; set; }
         public string EventName { get; set; }
         public DateTime EventDate { get; set; }
@@ -11,17 +15,6 @@
         public string EventProducerNmae { get; set; }
 
 
-        public SingleEvent() { }
 
-        public SingleEvent(int id, string name, int price, DateTime date, int pId, string pNmae)
-        {
-            EventCode = id;
-            EventName = name;
-            EventPrice = price;
-            EventStatus = true;
-            EventProducerId = pId;
-            EventDate = date;
-            EventProducerNmae = pNmae;
-        }
     }
 }
