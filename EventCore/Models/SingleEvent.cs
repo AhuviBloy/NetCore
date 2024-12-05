@@ -10,10 +10,13 @@
         public int EventProducerId { get; set; }
         public string EventProducerNmae { get; set; }
 
+
+        public SingleEvent() { }
+
         public SingleEvent(int id, string name, int price, DateTime date, int pId, string pNmae)
         {
-            EventName = name;
             EventCode = id;
+            EventName = name;
             EventPrice = price;
             EventStatus = true;
             EventProducerId = pId;

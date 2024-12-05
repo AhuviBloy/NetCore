@@ -15,18 +15,33 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IProducerService, ProducerService>();
-builder.Services.AddScoped<IProducerRepository, ProducerRepository>();
-builder.Services.AddScoped<ITicketService, TicketService>();
-builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-builder.Services.AddSingleton<DataContext>();
 
+builder.Services.AddScoped<IDataContext, DataContext>();
+
+// רישום הרפוזיטוריז
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IProducerRepository, ProducerRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+
+// רישום השירותים
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IProducerService, ProducerService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
 
 var app = builder.Build();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()  // מאפשר לכל דומיין לשלוח בקשות
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
