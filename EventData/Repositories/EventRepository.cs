@@ -1,6 +1,7 @@
 ﻿using Event.Core.Interface;
 using Event.Core.Models;
 using Event.Core.Repositories;
+using EventCore.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace Event.Data.Repositories
 {
     public class EventRepository :IEventRepository
     {
-        private readonly IDataContext _dataContext;
+        private readonly DataContext _dataContext;
 
-        public EventRepository(IDataContext context)
+        public EventRepository(DataContext context)
         {
             _dataContext = context;
         }
@@ -32,19 +33,36 @@ namespace Event.Data.Repositories
 
         public void AddNewEvent(SingleEvent eventt) //הוספת ארוע למפיק
         {
-            _dataContext.producersDbSet.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId).ProducerEventList.Add(eventt);
+            var producer = _dataContext.producersDbSet.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId);
+
+            if (producer.ProducerEventList != null)
+            {
+                producer.ProducerEventList.Add(eventt);
+            }
+            else
+            {
+                producer.ProducerEventList=new List<SingleEvent> { eventt };
+            }
+            _dataContext.SaveChanges();
         }
 
         public void UpdateEventDetails(SingleEvent eventt) //שינוי פרטי ארוע
         {
-            SingleEvent temp = _dataContext.eventDbSet.FirstOrDefault(e => e.EventCode == eventt.EventCode);
-            temp.EventPrice = eventt.EventPrice;
-            temp.EventDate = eventt.EventDate;
+            SingleEvent tempeventt = _dataContext.eventDbSet.FirstOrDefault(e => e.EventCode == eventt.EventCode);
+            if(tempeventt!=null)
+            {
+            tempeventt.EventPrice = eventt.EventPrice;
+            tempeventt.EventDate = eventt.EventDate;
+            }
+            
+
+            _dataContext.SaveChanges();
         }
 
         public void DeleteInactiveEvent(int id) //ארוע לא זמין
         {
-            _dataContext.eventDbSet.FirstOrDefault(e => e.EventCode == id).EventStatus = false;
+            GetEventById(id).EventStatus = false;
+            _dataContext.SaveChanges();
         }
     }
 }

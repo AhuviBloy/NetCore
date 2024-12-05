@@ -11,7 +11,7 @@ namespace Event.Core.Repositories
     {
         public List<Producer> GetAllProducers(); //קבלת רשימה של כל המפיקים
         public Producer GetProducerById(int id); //קבלת מפיק
-        public void AddNewProducer(int id, string name); // (הוספת מפיק חדש (במקרה שיצר ארוע
+        public void AddNewProducer(Producer producer); // (הוספת מפיק חדש (במקרה שיצר ארוע
 
         public void AddEventToProducer(SingleEvent eventt); // הכנסת ארוע למפיק
 

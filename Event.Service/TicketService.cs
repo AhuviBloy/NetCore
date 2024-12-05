@@ -21,6 +21,7 @@ namespace Event.Service
         }
         public void BuyTicket(Ticket ticket) //קנית כרטיס
         {
+            _ticketRepository.AddTicketToDb(ticket);
             _clientService.AddTicketToClient(ticket);
         }
     }

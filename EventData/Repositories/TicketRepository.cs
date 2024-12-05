@@ -1,6 +1,7 @@
 ﻿using Event.Core.Interface;
 using Event.Core.Models;
 using Event.Core.Repositories;
+using EventCore.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,17 @@ namespace Event.Data.Repositories
 {
     public class TicketRepository:ITicketRepository
     {
-        private readonly IDataContext _dataContext;
+        private readonly DataContext _dataContext;
 
-        public TicketRepository(IDataContext context)
+        public TicketRepository(DataContext context)
         {
             _dataContext = context;
         }
 
-        //public void BuyTicket(Ticket ticket) //קנית כרטיס
-        //{
-        //    _dataContext.clientList.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket);
-        //}
+        public void AddTicketToDb(Ticket ticket) //קנית כרטיס
+        {
+            _dataContext.ticketDbSet.Add(ticket);
+            _dataContext.SaveChanges();
+        }
     }
 }

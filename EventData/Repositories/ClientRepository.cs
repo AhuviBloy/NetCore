@@ -1,6 +1,7 @@
 ﻿using Event.Core.Interface;
 using Event.Core.Models;
 using Event.Core.Repositories;
+using EventCore.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Event.Data.Repositories
 {
     public class ClientRepository:IClientRepository
     {
-        private readonly IDataContext _dataContext;
+        private readonly DataContext _dataContext;
 
-        public ClientRepository(IDataContext context)
+        public ClientRepository(DataContext context)
         {
             _dataContext = context;
         }
@@ -28,14 +29,25 @@ namespace Event.Data.Repositories
            return _dataContext.clientDbSet.FirstOrDefault(c => c.ClientId == id && c.ClientStatus == true);
         }
 
-        public void AddNewClient(int id,string name)//הוספת לקוח חדש
+        public void AddNewClient(Client client)//הוספת לקוח חדש
         {
-            _dataContext.clientDbSet.Add(new Client() { ClientId=id,ClientName=name,ClientTicketList=new List<Ticket>(),ClientStatus=true});
+            _dataContext.clientDbSet.Add(client);
+            _dataContext.SaveChanges();
         }
 
         public void AddTicketToClient(Ticket ticket) // הכנסת כרטיס ללקוח
-        {          
-            _dataContext.clientDbSet.FirstOrDefault(c => c.ClientId == ticket.ClientId).ClientTicketList.Add(ticket);
+        {
+            var client = _dataContext.clientDbSet.FirstOrDefault(c => c.ClientId == ticket.ClientId);
+
+            if (client.ClientTicketList != null)
+            {
+                client.ClientTicketList.Add(ticket);
+            }
+            else {
+                client.ClientTicketList = new List<Ticket> { ticket };                   
+            }
+
+            _dataContext.SaveChanges();
         }
 
         //public void DeleteTicketToClient(Ticket ticket); //מחיקת כרטיס ללקוח  

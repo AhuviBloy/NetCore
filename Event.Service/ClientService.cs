@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Event.Service
 {
@@ -28,9 +29,17 @@ namespace Event.Service
             return _clientRepository.GetClientById(id);
         }
 
-        public void AddNewClient(int id, string name)//הוספת לקוח חדש
+        public void AddNewClient(int id, string name)
         {
-            _clientRepository.AddNewClient(id,name);
+            Client client = new Client
+            {
+                ClientId = id,
+                ClientName = name,
+                ClientTicketList = new List<Ticket>(),
+                ClientStatus = true
+            };
+
+            _clientRepository.AddNewClient(client);
         }
 
         public void AddTicketToClient(Ticket ticket) // הכנסת כרטיס ללקוח
@@ -39,8 +48,9 @@ namespace Event.Service
 
             if (temp == null)
             {
-                _clientRepository.AddNewClient(ticket.ClientId, ticket.ClientName);
-            }          
+                AddNewClient(ticket.ClientId, ticket.ClientName);
+            }
+
             _clientRepository.AddTicketToClient(ticket);
         }
 

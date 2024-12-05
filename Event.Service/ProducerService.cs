@@ -12,10 +12,12 @@ namespace Event.Service
     public class ProducerService:IProducerService
     {
         private readonly IProducerRepository _producerRepository;
+        private readonly IEventRepository _eventRepository;
 
-        public ProducerService(IProducerRepository producerRepository)
+        public ProducerService(IProducerRepository producerRepository, IEventRepository eventRepository)
         {
             _producerRepository = producerRepository;
+            _eventRepository = eventRepository;
         }
 
         public List<Producer> GetAllProducers() //קבלת רשימה של כל המפיקים
@@ -28,16 +30,12 @@ namespace Event.Service
         }
         public void AddNewProducer(int id, string name) // (הוספת מפיק חדש (במקרה שיצר ארוע
         {
-            _producerRepository.AddNewProducer(id, name);
+            var producer=new Producer() {ProducerId=id,ProducerName=name,ProducerEventList=new List<SingleEvent>(),ProducerStatus=true };
+            _producerRepository.AddNewProducer(producer);
         }
         public void AddEventToProducer(SingleEvent eventt)// הכנסת ארוע למפיק
         {
-            Producer temp = _producerRepository.GetProducerById(eventt.EventProducerId);
-            if (temp == null)
-            {
-                _producerRepository.AddNewProducer(eventt.EventProducerId,eventt.EventProducerNmae);
-            }
-            _producerRepository.AddEventToProducer(eventt);
+            _eventRepository.AddNewEvent(eventt);
         }
 
         //public void DeleteProducer(Ticket ticket); //מחיקת ארוע למפיק 

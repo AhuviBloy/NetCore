@@ -9,6 +9,6 @@ namespace Event.Core.Repositories
 {
     public interface ITicketRepository
     {
-        //public void BuyTicket(Ticket ticket); //קנית כרטיס
+        public void AddTicketToDb(Ticket ticket); //קנית כרטיס
     }
 }
