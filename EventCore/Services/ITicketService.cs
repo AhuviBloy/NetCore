@@ -1,4 +1,5 @@
 ﻿using Event.Core.Models;
+using GlaTicket.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Event.Core.Services
 {
     public interface ITicketService
     {
-        public void BuyTicket(Ticket ticket); //קנית כרטיס
+        public void BuyTicket(TicketPostDTO ticket); //קנית כרטיס
     }
 }

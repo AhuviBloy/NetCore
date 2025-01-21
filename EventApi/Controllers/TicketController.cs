@@ -2,6 +2,7 @@
 using Event.Core.Interface;
 using Event.Core.Models;
 using Event.Core.Services;
+using GlaTicket.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,7 +22,7 @@ namespace Event.Api.Controllers
 
         // POST api/<TicketController>
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] Ticket ticket)
+        public ActionResult<bool> Post([FromBody] TicketPostDTO ticket)
         {
             _ticketService.BuyTicket(ticket);
             return Ok(true);

@@ -9,9 +9,6 @@ namespace Event.Core.Models
         public int ProducerId { get; set; }
         public string ProducerName { get; set; }
         public bool ProducerStatus { get; set; }
-        public List<SingleEvent> ProducerEventList { get; set; }
-
-
-
+        public List<SingleEvent> ProducerEvents { get; set; }=new List<SingleEvent>() { };
     }
 }

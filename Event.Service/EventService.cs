@@ -1,6 +1,8 @@
-﻿using Event.Core.Models;
+﻿using AutoMapper;
+using Event.Core.Models;
 using Event.Core.Repositories;
 using Event.Core.Services;
+using GlaTicket.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,31 +15,42 @@ namespace Event.Service
     {
         private readonly IEventRepository _eventRepository;
         private readonly IProducerService _producerService;
+        private readonly IMapper _mapper;
 
-        public EventService(IEventRepository eventRepository, IProducerService producerService)
+        public EventService(IEventRepository eventRepository, IProducerService producerService,IMapper mapper)
         {
             _eventRepository = eventRepository;
             _producerService = producerService;
+            _mapper = mapper;
         }
 
-        public List<SingleEvent> GetAllEvents() //קבלת כל הארועים
+        public List<EventGetDTO> GetAllEvents() //קבלת כל הארועים
         {
-            return _eventRepository.GetAllEvents();
+            var list = _eventRepository.GetAllEvents();
+            var listDto = new List<EventGetDTO>();
+            foreach (var event1 in list)
+            {
+                listDto.Add(_mapper.Map<EventGetDTO>(event1));
+            }
+            return listDto;
         }
 
-        public SingleEvent GetEventById(int id) //קבלת פרטי ארוע
+        public EventGetDTO GetEventById(int id) //קבלת פרטי ארוע
         {
-            return _eventRepository.GetEventById(id);
+            return _mapper.Map<EventGetDTO>(_eventRepository.GetEventById(id));
         }
 
-        public void AddNewEvent(SingleEvent eventt) //הוספת ארוע למפיק
+        public void AddNewEvent(EventPostDTO eventt) //הוספת ארוע למפיק
         {
-            Producer temp=_producerService.GetProducerById(eventt.EventProducerId);
+            ProducerGetDTO temp=_producerService.GetProducerById(eventt.ProducerId);
             if (temp == null)
             {
-                _producerService.AddNewProducer(eventt.EventProducerId,eventt.EventProducerNmae);
+                throw new Exception("this producer isn't exsist");
             }
-            _eventRepository.AddNewEvent(eventt);
+            else
+            {
+                _eventRepository.AddNewEvent(_mapper.Map<SingleEvent>(eventt));
+            }
         }
 
         public void UpdateEventDetails(SingleEvent eventt) //שינוי פרטי ארוע

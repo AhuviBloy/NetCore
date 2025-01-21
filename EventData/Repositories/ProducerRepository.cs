@@ -37,7 +37,7 @@ namespace Event.Data.Repositories
 
         public void AddEventToProducer(SingleEvent eventt)// הכנסת ארוע למפיק
         {
-           GetProducerById(eventt.EventProducerId).ProducerEventList.Add(eventt);
+           GetProducerById(eventt.ProducerId).ProducerEvents.Add(eventt);
            _dataContext.SaveChanges();
         }
 

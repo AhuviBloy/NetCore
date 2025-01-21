@@ -1,6 +1,8 @@
-﻿using Event.Core.Models;
+﻿using AutoMapper;
+using Event.Core.Models;
 using Event.Core.Repositories;
 using Event.Core.Services;
+using GlaTicket.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +15,29 @@ namespace Event.Service
     public class ClientService:IClientService
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IMapper _mapper;
 
-        public ClientService(IClientRepository clientRepository)
+
+        public ClientService(IClientRepository clientRepository,IMapper mapper)
         {
             _clientRepository = clientRepository;
+            _mapper = mapper;
         }
 
-        public List<Client> GetAllClients()
+        public List<ClientGetDTO> GetAllClients()
         {
-            return _clientRepository.GetAllClients();
+            var list = _clientRepository.GetAllClients();
+            var listDto = new List<ClientGetDTO>();
+            foreach (var client in list)
+            {
+                listDto.Add(_mapper.Map<ClientGetDTO>(client));
+            }
+            return listDto;
         }
 
-        public Client GetClientById(int id)
+        public ClientGetDTO GetClientById(int id)
         {
-            return _clientRepository.GetClientById(id);
+            return _mapper.Map<ClientGetDTO>(_clientRepository.GetClientById(id));
         }
 
         public void AddNewClient(int id, string name)

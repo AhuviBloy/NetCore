@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Tracing;
 
 namespace Event.Core.Models
@@ -7,11 +8,11 @@ namespace Event.Core.Models
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("ClientId")]
         public int ClientId { get; set; }
         public string ClientName { get; set; }
-        public int EventCode { get; set; }
-        public string EventName { get; set; }
-
-
+        public Client Client { get; set; }
+        public int EventId { get; set; }
+        //public SingleEvent Event { get; set; }
     }
 }

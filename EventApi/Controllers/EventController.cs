@@ -2,6 +2,7 @@
 using Event.Core.Interface;
 using Event.Core.Models;
 using Event.Core.Services;
+using GlaTicket.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,7 +22,7 @@ namespace EventApi.Controllers
 
         // GET: api/<EventController>
         [HttpGet]
-        public ActionResult<List<SingleEvent>> Get()
+        public ActionResult<List<EventGetDTO>> Get()
         {
             var tmp=_eventService.GetAllEvents();
             return Ok(tmp);
@@ -29,7 +30,7 @@ namespace EventApi.Controllers
 
         // GET api/<EventController>/5
         [HttpGet("{id}")]
-        public ActionResult<SingleEvent> Get(int id)
+        public ActionResult<EventGetDTO> Get(int id)
         {
             var tmp=_eventService.GetEventById(id);
             if (tmp == null)
@@ -39,7 +40,7 @@ namespace EventApi.Controllers
 
         // POST api/<EventController>
         [HttpPost]
-        public ActionResult<bool> Post([FromBody] SingleEvent eventt)
+        public ActionResult<bool> Post([FromBody] EventPostDTO eventt)
         {
             _eventService.AddNewEvent(eventt);
             return Ok(true);

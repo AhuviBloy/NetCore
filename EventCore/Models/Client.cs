@@ -9,7 +9,7 @@ namespace Event.Core.Models
         public int ClientId { get; set; }
         public string ClientName { get; set; }
         public bool ClientStatus { get; set; }
-        public List<Ticket> ClientTicketList { get; set; }
+        public List<Ticket> ClientTicketList { get; set; }=new List<Ticket>(){ };
 
 
     }

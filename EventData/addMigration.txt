@@ -1,0 +1,3 @@
+עדכון צורת הטבלאות ב DB:
+1.Add-Migration (give name)
+2.Update-Database

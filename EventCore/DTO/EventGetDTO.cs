@@ -1,17 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Event.Core.Models
+namespace GlaTicket.Core.DTO
 {
-    public class SingleEvent
+    public class EventGetDTO
     {
-        [Key]
-        public int Id { get; set; }
         public int EventCode { get; set; }
         public string EventName { get; set; }
         public DateTime EventDate { get; set; }
         public int EventPrice { get; set; }
         public bool EventStatus { get; set; }
         public int ProducerId { get; set; }
-        public List<Ticket> TicketList { get; set; }=new List<Ticket>();
+        public List<TicketGetDTO> EventTicketList { get; set; } = new List<TicketGetDTO>();
     }
 }

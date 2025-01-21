@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Event.Data.Repositories
 {
@@ -23,7 +24,7 @@ namespace Event.Data.Repositories
 
         public List<SingleEvent> GetAllEvents() //קבלת כל הארועים
         {
-            return _dataContext.eventDbSet.ToList();
+            return _dataContext.eventDbSet.ToList();//.Include(e => e.Producer);
         }
 
         public SingleEvent GetEventById(int id) //קבלת פרטי ארוע
@@ -33,15 +34,15 @@ namespace Event.Data.Repositories
 
         public void AddNewEvent(SingleEvent eventt) //הוספת ארוע למפיק
         {
-            var producer = _dataContext.producersDbSet.FirstOrDefault(p => p.ProducerId == eventt.EventProducerId);
+            var producer = _dataContext.producersDbSet/*.Include(p => p.ProducerEvents)*/.FirstOrDefault(p => p.ProducerId == eventt.ProducerId);
 
-            if (producer.ProducerEventList != null)
+            if (producer.ProducerEvents != null)
             {
-                producer.ProducerEventList.Add(eventt);
+                producer.ProducerEvents.Add(eventt);
             }
             else
             {
-                producer.ProducerEventList=new List<SingleEvent> { eventt };
+                producer.ProducerEvents = new List<SingleEvent> { eventt };
             }
             _dataContext.SaveChanges();
         }

@@ -2,6 +2,7 @@
 using Event.Core.Interface;
 using Event.Core.Models;
 using Event.Core.Services;
+using GlaTicket.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,14 +22,14 @@ namespace Event.Api.Controllers
 
         // GET: api/Client
         [HttpGet]
-        public ActionResult<List<Client>> Get()
+        public ActionResult<List<ClientGetDTO>> Get()
         {
            return Ok(_clientService.GetAllClients());
         }
 
         // GET api/Client/{id}
         [HttpGet("{id}")]
-        public ActionResult<Client> Get(int id)
+        public ActionResult<ClientGetDTO> Get(int id)
         {
             var tmp = _clientService.GetClientById(id);
             if(tmp == null) 

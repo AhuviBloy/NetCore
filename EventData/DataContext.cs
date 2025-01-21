@@ -17,6 +17,7 @@ namespace EventCore.Data
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=sample_db");
         }
+        /*Database=sample_db*/
 
     }
 }

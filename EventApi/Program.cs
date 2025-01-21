@@ -5,6 +5,7 @@ using Event.Core.Services;
 using Event.Data.Repositories;
 using Event.Service;
 using EventCore.Data;
+using GlaTicket.Core;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDataContext, DataContext>();
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
 // רישום הרפוזיטוריז
 builder.Services.AddScoped<IEventRepository, EventRepository>();

@@ -1,6 +1,8 @@
-﻿using Event.Core.Models;
+﻿using AutoMapper;
+using Event.Core.Models;
 using Event.Core.Repositories;
 using Event.Core.Services;
+using GlaTicket.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,24 +15,32 @@ namespace Event.Service
     {
         private readonly IProducerRepository _producerRepository;
         private readonly IEventRepository _eventRepository;
+        private readonly IMapper _mapper;
 
-        public ProducerService(IProducerRepository producerRepository, IEventRepository eventRepository)
+        public ProducerService(IProducerRepository producerRepository, IEventRepository eventRepository,IMapper mapper)
         {
             _producerRepository = producerRepository;
             _eventRepository = eventRepository;
+            _mapper = mapper;
         }
 
-        public List<Producer> GetAllProducers() //קבלת רשימה של כל המפיקים
+        public List<ProducerGetDTO> GetAllProducers() //קבלת רשימה של כל המפיקים
         {
-            return _producerRepository.GetAllProducers();
+            var list = _producerRepository.GetAllProducers();
+            var listDto = new List<ProducerGetDTO>();
+            foreach (var producer in list)
+            {
+                listDto.Add(_mapper.Map<ProducerGetDTO>(producer));
+            }
+            return listDto;
         }
-        public Producer GetProducerById(int id)//קבלת מפיק
+        public ProducerGetDTO GetProducerById(int id)//קבלת מפיק
         {
-            return _producerRepository.GetProducerById(id);
+            return _mapper.Map<ProducerGetDTO>(_producerRepository.GetProducerById(id));
         }
         public void AddNewProducer(int id, string name) // (הוספת מפיק חדש (במקרה שיצר ארוע
         {
-            var producer=new Producer() {ProducerId=id,ProducerName=name,ProducerEventList=new List<SingleEvent>(),ProducerStatus=true };
+            var producer=new Producer() {ProducerId=id,ProducerName=name,ProducerEvents=new List<SingleEvent>(),ProducerStatus=true };
             _producerRepository.AddNewProducer(producer);
         }
         public void AddEventToProducer(SingleEvent eventt)// הכנסת ארוע למפיק

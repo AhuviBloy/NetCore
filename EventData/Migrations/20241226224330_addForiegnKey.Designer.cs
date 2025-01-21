@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Event.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241205164539_MigrationName")]
-    partial class MigrationName
+    [Migration("20241226224330_addForiegnKey")]
+    partial class addForiegnKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,17 +91,10 @@ namespace Event.Data.Migrations
                     b.Property<int>("EventPrice")
                         .HasColumnType("int");
 
-                    b.Property<int>("EventProducerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EventProducerNmae")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("EventStatus")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProducerId")
+                    b.Property<int>("ProducerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -126,16 +119,14 @@ namespace Event.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EventCode")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
-
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("ticketDbSet");
                 });
@@ -143,17 +134,29 @@ namespace Event.Data.Migrations
             modelBuilder.Entity("Event.Core.Models.SingleEvent", b =>
                 {
                     b.HasOne("Event.Core.Models.Producer", null)
-                        .WithMany("ProducerEventList")
-                        .HasForeignKey("ProducerId");
+                        .WithMany("ProducerEvents")
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Event.Core.Models.Ticket", b =>
                 {
-                    b.HasOne("Event.Core.Models.Client", null)
+                    b.HasOne("Event.Core.Models.Client", "Client")
                         .WithMany("ClientTicketList")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Event.Core.Models.SingleEvent", "Event")
+                        .WithMany("TicketList")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("Event.Core.Models.Client", b =>
@@ -163,7 +166,12 @@ namespace Event.Data.Migrations
 
             modelBuilder.Entity("Event.Core.Models.Producer", b =>
                 {
-                    b.Navigation("ProducerEventList");
+                    b.Navigation("ProducerEvents");
+                });
+
+            modelBuilder.Entity("Event.Core.Models.SingleEvent", b =>
+                {
+                    b.Navigation("TicketList");
                 });
 #pragma warning restore 612, 618
         }
